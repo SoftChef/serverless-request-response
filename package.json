@@ -1,0 +1,33 @@
+{
+  "name": "serverless-request-response",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+      "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftChef/serverless-request-response.git"
+  },
+  "keywords": [
+    "serverless",
+    "request",
+    "response"
+  ],
+  "author": "SoftChef",
+  "license": "SoftChef",
+  "bugs": {
+    "url": "https://github.com/SoftChef/serverless-request-response/issues"
+  },
+  "homepage": "https://github.com/SoftChef/serverless-request-response#readme",
+  "devDependencies": {
+    "eslint": "^5.4.0",
+    "eslint-config-standard": "12.0.0-alpha.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "mocha": "^5.2.0"
+  }
+}
