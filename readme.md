@@ -55,8 +55,3 @@ exports.handler = async(event, context, callback) => {
 ## License
 
 This SDK is distributed under the GNU GENERAL PUBLIC LICENSE Version 3, see LICENSE for more information.
-
-## Support
-
-If you have technical questions about sensor.live-atr, contact sensor.live support poke@sensor.live.
-
