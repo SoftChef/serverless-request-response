@@ -9,7 +9,9 @@ const fake_event = {
         search: 'keyword'
     },
     body: JSON.stringify({
-        name: 'Josh Chai'
+        name: 'Josh Chai',
+        visiable: true,
+        block: false
     }),
     requestContext: {
         authorizer: {
@@ -40,8 +42,11 @@ describe('Request', () => {
         it('should return "Josh Chai" when input the name', () => {
             assert.strictEqual(request.input('name'), 'Josh Chai')
         })
-        it('should return 0 when input the checked\'s default value', () => {
-            assert.strictEqual(request.input('checked', 0), 0)
+        it('should return true when input the visiable\'s default value', () => {
+            assert.strictEqual(request.input('visiable', true), true)
+        })
+        it('should return false when input the block\'s default value', () => {
+            assert.strictEqual(request.input('block', false), false)
         })
     })
     describe('user()', () => {
