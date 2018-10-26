@@ -67,6 +67,10 @@ const customize = (body, status_code, { cors = true } = {}) => {
     return buildResponse(status_code, body, cors)
 }
 
+const json = (body, status_code, { cors = true } = {}) => {
+    return buildResponse(status_code, body, cors)
+}
+
 module.exports = {
     success,
     badRequest,
@@ -75,5 +79,6 @@ module.exports = {
     notFound,
     unprocessable,
     internalError,
-    customize
+    customize,
+    json
 }
