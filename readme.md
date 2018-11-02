@@ -33,13 +33,17 @@ exports.handler = async(event, context, callback) => {
     // content = 'New Content'
     let visiable = request.input('visiable', false)
     // visiable = false // visiable not assigned, use default value
-    
+
+    // Get all query strings and post data
+    let all = request.all()
+
     // Get User
     let user = request.user() || {}
     let user_id = user.id || null
     // if user has authorized from cognito
     
     // Response
+    Response.json({ message: 'ok'}, 200) // status code is 200 
     Response.success({ message: 'ok' }) // status code is 200
     Response.badRequest({ error: 'Bad request' }) // status code is 400
     Response.unauthorized({ error: 'Unauthorized' }) // status code is 401

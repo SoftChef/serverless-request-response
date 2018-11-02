@@ -4,6 +4,11 @@ class Request {
     constructor(event) {
         this.event = event
     }
+    all() {
+        let query = this.event.queryStringParameters || {}
+        let body = this.input() || {}
+        return Object.assign(query, body)
+    }
     params(name) {
         return this.event.pathParameters[name] || null
     }
