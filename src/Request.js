@@ -1,41 +1,81 @@
 'use strict'
 
 class Request {
-    constructor(event) {
-        this.event = event
+    constructor(request, cloud = 'aws') {
+        this.request = request
+        this.cloud = cloud
+        this.body = {}
+        this.query = {}
+        this.params = {}
+        this.parseRequest()
     }
-    all() {
-        let query = this.event.queryStringParameters || {}
-        let body = this.input() || {}
-        return Object.assign(query, body)
-    }
-    params(name) {
-        return this.event.pathParameters[name] || null
-    }
-    get(name, default_value) {
-        return this.event.queryStringParameters[name] || default_value || null
-    }
-    input(name, default_value) {
-        if (!this.body) {
-            try {
-                this.body = JSON.parse(this.event.body)
-            } catch (exception) {
-                this.body = {}
-            }
+
+    parseRequest() {
+        switch(this.cloud) {
+            case 'aws':
+                this.parseRequestAWS()
+                break
+            case 'gcp':
+                this.parseRequestGCP()
+                break
+            default:
+                this.parseRequestAZURE()
+                break
         }
-        if (name === undefined) {
+    }
+
+    parseRequestAWS() {
+        this.query = this.request.queryStringParameters || {}
+        this.params = this.request.pathParameters || {}
+        try {
+            this.body = JSON.parse(this.request.body || {})
+        } catch (exception) {
+            this.body = {}
+        }
+    }
+
+    parseRequestGCP() {
+        this.body = this.request.body || {}
+        this.query = (require('url')).parse(this.request.url, true).query
+    }
+
+    parseRequestAZURE() {
+        this.body = this.request.body || {}
+        this.query = this.request.query || {}
+        this.params = this.request.params || {}
+    }
+
+    all() {
+        let target = Object.assign({}, this.query)
+        return Object.assign(target, this.body)
+    }
+
+    get(name, default_value) {
+        return this.query[name] || default_value || null
+    }
+
+    input(name, default_value) {
+        if (name == null) {
             return this.body
         }
-        let result = this.body[name] || default_value
-        return result !== undefined ? result : null
+        return this.body[name] || default_value || null
     }
+
+    params(name) {
+        return this.params[name] || null
+    }
+
     user() {
-        let authorizer = (this.event.requestContext || {}).authorizer || {}
-        let user = authorizer.claims || null
-        if (user) {
-            user.id = user.sub
+        if (this.cloud === 'aws') {
+            let authorizer = (this.request.requestContext || {}).authorizer || {}
+            let user = authorizer.claims || null
+            if (user) {
+                user.id = user.sub
+            }
+            return user
+        } else {
+            throw new Error('User only support aws cloud.')
         }
-        return user
     }
 }
 
